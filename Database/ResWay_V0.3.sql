@@ -50,7 +50,7 @@ CREATE TABLE Property (
 );
 
 CREATE TABLE Offer (
-  ofr_id INTEGER NOT NULL,
+  ofr_id INTEGER NOT NULL AUTO_INCREMENT,
   ofr_prop_id INTEGER NOT NULL,
   ofr_byr_id INTEGER,
   ofr_slr_id INTEGER,
