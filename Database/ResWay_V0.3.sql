@@ -119,7 +119,7 @@ CREATE TABLE UserInfo (
   usr_inf_phone_verified BOOLEAN NOT NULL DEFAULT FALSE,
   usr_inf_addr_str1 VARCHAR(50),
   usr_inf_addr_str2 VARCHAR(50),
-  usr_inf_addr_apt_num SMALLINT,
+  usr_inf_addr_apt_num VARCHAR(8),
   usr_inf_addr_zip VARCHAR(10),
   usr_inf_addr_city VARCHAR(20),
   usr_inf_addr_state VARCHAR(20),
