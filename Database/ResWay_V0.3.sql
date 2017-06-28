@@ -72,7 +72,6 @@ CREATE TABLE OfferDetails (
   ofr_det_is_financing_req BOOL DEFAULT FALSE,
   ofr_det_fin_cmt_dt DATETIME,
   ofr_det_fin_appl_dt DATETIME,
-  ofr_is_contingency BOOL,
   ofr_add_terms VARCHAR(800),
   ofr_buyer_agency_rights BOOL NOT NULL DEFAULT FALSE,
   ofr_seller_agency_rights BOOL NOT NULL DEFAULT FALSE,
