@@ -114,7 +114,7 @@ CREATE TABLE UserInfo (
   usr_inf_agent BOOLEAN NOT NULL,
   usr_inf_gender ENUM('M', 'F', 'U'),
   usr_inf_is_registered BOOLEAN,
-  usr_inf_registration_date TIMESTAMP NOT NULL,
+  usr_inf_registration_date TIMESTAMP,
   usr_inf_email_verified BOOLEAN NOT NULL DEFAULT FALSE,
   usr_inf_phone_verified BOOLEAN NOT NULL DEFAULT FALSE,
   usr_inf_addr_str1 VARCHAR(50),
