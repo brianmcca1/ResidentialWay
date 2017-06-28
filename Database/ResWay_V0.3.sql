@@ -1,18 +1,7 @@
+/* SQL script to create the database for the Residential Way platform. */
+
 CREATE database ResWay1;
 use ResWay1;
-/*test @ 3:30p*/
-
-/*User should be first table created, so FKs will work qhen script */
-/*Please use Indexes, for faster access.
-For example: address, names, phone numbers, and email are fields which may be used to query for records.*/
-/*Please run the script in your MySQL and clear any errors as they arise, probably to do with ordering of the tables
-Please make sure each PK has AUTO_INCREMENT
-Please implement a few of the more high level optimization steps mentioned in the stack overflow article I shared. We can improve more later, but will be userful to learn some of the thought behind these steps.
-I noticed in the Offer table, the commented out FK lines seem pretty funky. Presumably why they're commented. Shouldn't the references point at another table, not itself?
-For tables where two field make up the primary key I believe the syntax is something like :
-ADD CONSTRAINT uq_yourtablename UNIQUE(column1, column2);
-In places where MLSID used to be referenced, please be sure we now point to reso_Property table
-*/
 
 
 CREATE TABLE User (
@@ -34,7 +23,6 @@ CREATE TABLE AgentLicense (
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (lic_id),
   CONSTRAINT FK_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id)
-  /*ME: By User, do you mean "UserInfo" table below?*/
 );
 
 CREATE TABLE FormType (
@@ -137,7 +125,6 @@ CREATE TABLE UserInfo (
   usr_inf_addr_state VARCHAR(20),
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   /*usr_inf_profile_picture, ME: make this a blob?*/
-  /*Please check whether this sytax with primary and foreign keys named the same may give DB trouble*/
   PRIMARY KEY (usr_id),
   CONSTRAINT FK_UI_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id)
 );
@@ -331,8 +318,6 @@ CREATE TABLE OfferContingency (
   ofr_ctg_note VARCHAR(150),
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (ofr_id,ctg_id),
-  /*ME: syntax incorrect for combined primary key
-  ADD CONSTRAINT uq_yourtablename UNIQUE(column1, column2);*/
   CONSTRAINT FK_OC_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id),
   CONSTRAINT FK_ctg_id FOREIGN KEY(ctg_id) REFERENCES Contingency(ctg_id)
 );
