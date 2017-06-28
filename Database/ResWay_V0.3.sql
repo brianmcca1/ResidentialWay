@@ -81,7 +81,7 @@ CREATE TABLE OfferDetails (
 );
 
 CREATE TABLE OfferVersion (
-  ofr_id INTEGER NOT NULL AUTO_INCREMENT,
+  ofr_id INTEGER NOT NULL,
   ver_num SMALLINT NOT NULL,
   ofr_det_id INTEGER NOT NULL,
   ver_byr_notes VARCHAR(255),
@@ -97,7 +97,7 @@ CREATE TABLE OfferVersion (
 );
 
 CREATE TABLE OfferFormType (
-  ofr_id INTEGER NOT NULL AUTO_INCREMENT,
+  ofr_id INTEGER NOT NULL,
   ft_id INTEGER NOT NULL,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (ofr_id,ft_id),
@@ -227,7 +227,7 @@ CREATE TABLE ResoProperty (
 );
 
 CREATE TABLE Preference (
-  usr_id INTEGER NOT NULL AUTO_INCREMENT,
+  usr_id INTEGER NOT NULL,
   pref_amount DECIMAL(12,2) NOT NULL DEFAULT 0,
   pref_deposit DECIMAL(12,2) NOT NULL DEFAULT 1000, 
   pref_pns_deposit DECIMAL(5,2) NOT NULL DEFAULT 5,
