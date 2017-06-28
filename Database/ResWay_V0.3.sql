@@ -33,6 +33,22 @@ CREATE TABLE FormType (
   PRIMARY KEY (ft_id)
 );
 
+CREATE TABLE Property (
+  prop_id INTEGER AUTO_INCREMENT,
+  reso_property_key INTEGER,
+  prop_mls INTEGER,
+  prop_zillow_id INTEGER,
+  prop_street_name VARCHAR(20),
+  prop_street_num INTEGER,
+  prop_city VARCHAR(20),
+  prop_state VARCHAR(20),
+  prop_zip VARCHAR(8),
+  prop_list_price DECIMAL(12,2),
+  creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (prop_id)
+  /*CONSTRAINT FK_prop_mls FOREIGN KEY(prop_mls) REFERENCES (prop_mls)*/
+);
+
 CREATE TABLE Offer (
   ofr_id INTEGER NOT NULL,
   ofr_prop_id INTEGER NOT NULL,
@@ -40,15 +56,12 @@ CREATE TABLE Offer (
   ofr_slr_id INTEGER,
   ofr_current_version SMALLINT NOT NULL,
   ofr_status ENUM( 'incomplete',  'buyer_signed', 'seller_signed', 'executed', 'inactive') NOT NULL DEFAULT 'Incomplete',
-  ofr_byr_notes VARCHAR(255),
-  ofr_slr_notes VARCHAR(255),
   completion_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (ofr_id)
- /* CONSTRAINT FK_ofr_prop_id FOREIGN KEY(ofr_prop_id) REFERENCES Offer(ofr_prop_id),
-  CONSTRAINT FK_ofr_byr_id FOREIGN KEY(ofr_byr_id) REFERENCES Offer(ofr_byr_id),
-  CONSTRAINT FK_fr_slr_id FOREIGN KEY(fr_slr_id) REFERENCES Offer(fr_slr_id),
-  CONSTRAINT FK_ofr_current_version FOREIGN KEY(ofr_current_version) REFERENCES Offer(ofr_current_version)*/
+  PRIMARY KEY (ofr_id),
+  CONSTRAINT FK_ofr_prop_id FOREIGN KEY(ofr_prop_id) REFERENCES Property(prop_id),
+  CONSTRAINT FK_ofr_byr_id FOREIGN KEY(ofr_byr_id) REFERENCES User(usr_id),
+  CONSTRAINT FK_ofr_slr_id FOREIGN KEY(ofr_slr_id) REFERENCES User(usr_id)
 );
 
 CREATE TABLE OfferDetails (
@@ -254,21 +267,6 @@ CREATE TABLE Preference (
   CONSTRAINT FK_Pref_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id)
 );
 
-CREATE TABLE Property (
-  prop_id INTEGER AUTO_INCREMENT,
-  reso_property_key INTEGER,
-  prop_mls INTEGER,
-  prop_zillow_id INTEGER,
-  prop_street_name VARCHAR(20),
-  prop_street_num INTEGER,
-  prop_city VARCHAR(20),
-  prop_state VARCHAR(20),
-  prop_zip VARCHAR(8),
-  prop_list_price DECIMAL(12,2),
-  creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (prop_id)
-  /*CONSTRAINT FK_prop_mls FOREIGN KEY(prop_mls) REFERENCES (prop_mls)*/
-);
 
 CREATE TABLE UserProperty (
   usr_id INTEGER NOT NULL,
