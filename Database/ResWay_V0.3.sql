@@ -136,7 +136,7 @@ CREATE TABLE UserInfo (
   usr_inf_addr_city VARCHAR(20),
   usr_inf_addr_state VARCHAR(20),
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  /*usr_inf_profile_picture, ME: make this a blob?*/
+  usr_inf_profile_picture MEDIUMBLOB,
   PRIMARY KEY (usr_id),
   CONSTRAINT FK_UI_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id)
 );
