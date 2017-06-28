@@ -167,6 +167,7 @@ CREATE TABLE ResoProperty (
   reso_BuyerAgentStateLicense VARCHAR(50),
   reso_City VARCHAR(50),
   reso_CityRegion VARCHAR(150),
+  reso_CountyOrParish VARCHAR(50),
   reso_Contingency VARCHAR(1024),
   reso_Disclosures VARCHAR(4000),
   reso_DocumentsAvailable VARCHAR(1024),
