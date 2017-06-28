@@ -5,7 +5,7 @@ use ResWay1;
 
 
 CREATE TABLE User (
-  usr_id INTEGER NOT NULL,
+  usr_id INTEGER NOT NULL AUTO_INCREMENT,
   usr_email VARCHAR(35) NOT NULL,
   usr_ph_number Varchar(20),
   usr_auth_pass VARCHAR(50) NOT NULL,
@@ -106,7 +106,7 @@ CREATE TABLE OfferFormType (
 );
 
 CREATE TABLE UserInfo (
-  usr_id INTEGER NOT NULL AUTO_INCREMENT,
+  usr_id INTEGER NOT NULL,
   usr_inf_first_name VARCHAR(20) NOT NULL,
   usr_inf_last_name VARCHAR(20) NOT NULL,
   usr_inf_middle_name VARCHAR(20),
