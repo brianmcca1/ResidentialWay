@@ -368,8 +368,8 @@ CREATE TABLE UserContact (
   uc_contact_id INTEGER NOT NULL,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (usr_id,uc_contact_id),
-  CONSTRAINT FK_Ucontact_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id)
-  /*CONSTRAINT FK_uc_contact_id FOREIGN KEY(uc_contact_id) REFERENCES (uc_contact_id)*/
+  CONSTRAINT FK_Ucontact_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id),
+  CONSTRAINT FK_uc_contact_id FOREIGN KEY(uc_contact_id) REFERENCES User(usr_id)
 );
 
 CREATE TABLE UserOffer (
@@ -402,31 +402,31 @@ CREATE TABLE Document (
 );
 
 CREATE TABLE AuditTrail (
-at_id INTEGER NOT NULL AUTO_INCREMENT,
-ofr_id INTEGER,
-usr_id INTEGER,
-uc_contact_id INTEGER,
-audit_text VARCHAR(150),
-creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-PRIMARY KEY (at_id),
-CONSTRAINT FK_AT_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id), 
-CONSTRAINT FK_AT_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id), 
-CONSTRAINT FK_AT_uc_contact_id FOREIGN KEY(usr_id) REFERENCES  User(uc_contact_id)
-/* Brian, can you take a look at the implementation of the compound foreign key here?*/
+  at_id INTEGER NOT NULL AUTO_INCREMENT,
+  ofr_id INTEGER,
+  usr_id INTEGER,
+  uc_contact_id INTEGER,
+  audit_text VARCHAR(150),
+  creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (at_id),
+  CONSTRAINT FK_AT_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id), 
+  CONSTRAINT FK_AT_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id), 
+  CONSTRAINT FK_AT_uc_contact_id FOREIGN KEY(uc_contact_id) REFERENCES  User(usr_id)
+  /* Brian, can you take a look at the implementation of the compound foreign key here?*/
 );
 
 CREATE TABLE Invitation (
-invit_id INTEGER NOT NULL AUTO_INCREMENT,
-usr_id INTEGER NOT NULL,
-rec_usr_id INTEGER NOT NULL,
-ofr_id INTEGER,
-invit_format ENUM('Text','Email'),
-accepted_date TIMESTAMP,
-creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-PRIMARY KEY (invit_id)
-CONSTRAINT FK_Inv_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id), 
-CONSTRAINT FK_Inv_rec_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id), 
-CONSTRAINT FK_Inv_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id) 
+  invit_id INTEGER NOT NULL AUTO_INCREMENT,
+  usr_id INTEGER NOT NULL,
+  rec_usr_id INTEGER NOT NULL,
+  ofr_id INTEGER,
+  invit_format ENUM('Text','Email'),
+  accepted_date TIMESTAMP,
+  creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (invit_id),
+  CONSTRAINT FK_Inv_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id), 
+  CONSTRAINT FK_Inv_rec_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id), 
+  CONSTRAINT FK_Inv_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id) 
 /*me: in process*/
 );
 
