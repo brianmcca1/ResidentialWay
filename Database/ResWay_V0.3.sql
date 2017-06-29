@@ -412,7 +412,6 @@ CREATE TABLE AuditTrail (
   CONSTRAINT FK_AT_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id), 
   CONSTRAINT FK_AT_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id), 
   CONSTRAINT FK_AT_uc_contact_id FOREIGN KEY(uc_contact_id) REFERENCES  User(usr_id)
-  /* Brian, can you take a look at the implementation of the compound foreign key here?*/
 );
 
 CREATE TABLE Invitation (
@@ -425,13 +424,11 @@ CREATE TABLE Invitation (
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (invit_id),
   CONSTRAINT FK_Inv_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id), 
-  CONSTRAINT FK_Inv_rec_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id), 
+  CONSTRAINT FK_Inv_rec_usr_id FOREIGN KEY(rec_usr_id) REFERENCES User(usr_id), 
   CONSTRAINT FK_Inv_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id) 
 /*me: in process*/
 );
 
-/*We were thinking the hackiest solution which can get us there is to have a table which is like 4
- fields: audit_id, Offer.ofr_id(FK), joint(UserContact.usr_id;uc_contact_id); audit_text (blob of VarChar?))*/
 
 
 CREATE INDEX User_Name ON UserInfo(usr_inf_first_name, usr_inf_middle_name, usr_inf_last_name);
