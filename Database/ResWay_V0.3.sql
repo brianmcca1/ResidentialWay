@@ -421,6 +421,7 @@ CREATE TABLE Invitation (
   rec_usr_id INTEGER NOT NULL,
   ofr_id INTEGER,
   invit_format ENUM('Text','Email'),
+  invit_url VARCHAR(40) NOT NULL,
   accepted_date TIMESTAMP,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (invit_id),
