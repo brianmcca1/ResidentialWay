@@ -1,6 +1,5 @@
 CREATE database ResWay1;
 use ResWay1;
-/*test @ 3:30p*/
 
 /*User should be first table created, so FKs will work qhen script */
 /*Please use Indexes, for faster access.
@@ -144,7 +143,7 @@ CREATE TABLE UserInfo (
 
 CREATE TABLE ResoProperty (
   reso_property_key INTEGER NOT NULL AUTO_INCREMENT,
-  reso_reso_ListingId VARCHAR(255) NOT NULL,
+  reso_ListingId VARCHAR(255) NOT NULL,
   reso_SourceSystemName VARCHAR(255) NOT NULL DEFAULT 'MA_MLS',
   reso_Appliances VARCHAR(1024),
   reso_AssociationFee DECIMAL(14,2),
@@ -311,6 +310,7 @@ CREATE TABLE Form (
   form_source MEDIUMBLOB NOT NULL,
   form_name VARCHAR(60) NOT NULL,
   form_family VARCHAR(50),
+  form_no_pgs TINYINT,
   creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (form_id),
   CONSTRAINT FK_Form_ft_id FOREIGN KEY(ft_id) REFERENCES FormType(ft_id)
@@ -400,12 +400,10 @@ CREATE TABLE UserOffer (
   CONSTRAINT FK_UO_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id)
 );
 
-
-
 CREATE TABLE Document (
   doc_id INTEGER NOT NULL AUTO_INCREMENT,
   ofr_id INTEGER NOT NULL,
-  usr_id INTEGER NOT NULL,
+  doc_upld_by_id INTEGER NOT NULL,
   ft_id INTEGER NOT NULL,
   doc_title VARCHAR(35) NOT NULL,
   doc_ext VARCHAR(10) NOT NULL,
@@ -413,26 +411,56 @@ CREATE TABLE Document (
   doc_size DECIMAL(12,2) NOT NULL,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (doc_id),
-  CONSTRAINT FK_doc_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id), 
-  CONSTRAINT FK_Doc_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id), 
+  CONSTRAINT FK_Doc_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id), 
+  CONSTRAINT FK_Doc_upld_id FOREIGN KEY(doc_upld_by_id) REFERENCES User(usr_id), 
   CONSTRAINT FK_Doc_ft_id FOREIGN KEY(ft_id) REFERENCES FormType(ft_id) 
 );
 
+CREATE TABLE AuditTrail (
+at_id INTEGER NOT NULL AUTO_INCREMENT,
+ofr_id INTEGER,
+usr_id INTEGER,
+uc_contact_id INTEGER,
+audit_text VARCHAR(150),
+creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (at_id),
+CONSTRAINT FK_AT_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id), 
+CONSTRAINT FK_AT_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id), 
+CONSTRAINT FK_AT_uc_contact_id FOREIGN KEY(usr_id) REFERENCES  User(uc_contact_id)
+/* Brian, can you take a look at the implementation of the compound foreign key here?*/
+);
 
-CREATE INDEX User_Name ON UserInfo(usr_inf_suffix, usr_inf_first_name, usr_inf_middle_name, usr_inf_last_name);
+CREATE TABLE Invitation (
+invit_id INTEGER NOT NULL AUTO_INCREMENT,
+usr_id INTEGER NOT NULL,
+rec_usr_id INTEGER NOT NULL,
+ofr_id INTEGER,
+invit_format ENUM('Text','Email'),
+accepted_date TIMESTAMP,
+creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (invit_id)
+CONSTRAINT FK_Inv_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id), 
+CONSTRAINT FK_Inv_rec_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id), 
+CONSTRAINT FK_Inv_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id) 
+/*me: in process*/
+);
 
-CREATE INDEX User_Address ON UserInfo(usr_inf_addr_str1, usr_inf_addr_str2, usr_inf_addr_apt_num, usr_inf_addr_zip, usr_inf_addr_city, usr_inf_addr_state);
+/*We were thinking the hackiest solution which can get us there is to have a table which is like 4
+ fields: audit_id, Offer.ofr_id(FK), joint(UserContact.usr_id;uc_contact_id); audit_text (blob of VarChar?))*/
 
-CREATE INDEX User_Email ON UserInfo(usr_inf_email_verified);
 
-CREATE INDEX User_Phone ON UserInfo(usr_inf_phone_verified);
+CREATE INDEX User_Name ON UserInfo(usr_inf_first_name, usr_inf_middle_name, usr_inf_last_name);
+CREATE INDEX User_Email ON User(usr_email);
+CREATE INDEX User_Phone ON User(usr_ph_number);
 
-CREATE INDEX User_Details ON UserInfo(usr_inf_suffix, usr_inf_first_name, usr_inf_middle_name, usr_inf_last_name, usr_inf_addr_str1, usr_inf_addr_str2, usr_inf_addr_apt_num, usr_inf_addr_zip, usr_inf_addr_city, usr_inf_addr_state, usr_inf_email_verified, usr_inf_phone_verified);
+CREATE INDEX ResoBuyerAgent_Email ON ResoProperty(reso_BuyerAgentEmail);
+CREATE INDEX ResoBuyerAgent_Ph ON ResoProperty(reso_BuyerAgentCellPhone);
 
-CREATE INDEX ResoBuyerAgent_Details ON ResoProperty(reso_BuyerAgentNameSuffix ,reso_BuyerAgentFirstName, reso_BuyerAgentLastName, reso_BuyerAgentCellPhone, reso_BuyerAgentEmail);
+CREATE INDEX ResoListAgent_Name ON ResoProperty(reso_ListAgentFullName);
+CREATE INDEX ResoListAgent_Ph ON ResoProperty(reso_ListAgentCellPhone);
+CREATE INDEX ResoListAgent_Email ON ResoProperty(reso_ListAgentEmail);
 
-CREATE INDEX ResoListAgent_Details ON ResoProperty(reso_ListAgentNameSuffix, reso_ListAgentFirstName, reso_ListAgentMiddleName, reso_ListAgentOfficePhone, reso_ListAgentCellPhone, reso_ListAgentEmail);
+CREATE INDEX ResoProperty_Key ON ResoProperty(reso_ListingId);
+CREATE INDEX ResoProperty_StreetNumber ON ResoProperty(reso_StreetNumber);
+CREATE INDEX ResoProperty_StreetName ON ResoProperty(reso_StreetName);
 
-CREATE INDEX ResoProperty_Address ON ResoProperty(reso_StreetName, reso_StreetNumber, reso_StreetSuffix);
-
-/*CREATE INDEX Property_Address ON Property(prop_street_name,prop_street_num,prop_city,rop_state,prop_zip);*/
