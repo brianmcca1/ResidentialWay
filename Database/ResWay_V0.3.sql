@@ -1,21 +1,12 @@
+/* SQL script to create the database for the Residential Way platform. */
+
+DROP database IF EXISTS ResWay1;
 CREATE database ResWay1;
 use ResWay1;
 
-/*User should be first table created, so FKs will work qhen script */
-/*Please use Indexes, for faster access.
-For example: address, names, phone numbers, and email are fields which may be used to query for records.*/
-/*Please run the script in your MySQL and clear any errors as they arise, probably to do with ordering of the tables
-Please make sure each PK has AUTO_INCREMENT
-Please implement a few of the more high level optimization steps mentioned in the stack overflow article I shared. We can improve more later, but will be userful to learn some of the thought behind these steps.
-I noticed in the Offer table, the commented out FK lines seem pretty funky. Presumably why they're commented. Shouldn't the references point at another table, not itself?
-For tables where two field make up the primary key I believe the syntax is something like :
-ADD CONSTRAINT uq_yourtablename UNIQUE(column1, column2);
-In places where MLSID used to be referenced, please be sure we now point to reso_Property table
-*/
-
 
 CREATE TABLE User (
-  usr_id INTEGER NOT NULL,
+  usr_id INTEGER NOT NULL AUTO_INCREMENT,
   usr_email VARCHAR(35) NOT NULL,
   usr_ph_number Varchar(20),
   usr_auth_pass VARCHAR(50) NOT NULL,
@@ -33,7 +24,6 @@ CREATE TABLE AgentLicense (
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (lic_id),
   CONSTRAINT FK_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id)
-  /*ME: By User, do you mean "UserInfo" table below?*/
 );
 
 CREATE TABLE FormType (
@@ -44,22 +34,35 @@ CREATE TABLE FormType (
   PRIMARY KEY (ft_id)
 );
 
+CREATE TABLE Property (
+  prop_id INTEGER AUTO_INCREMENT,
+  reso_property_key INTEGER,
+  prop_mls INTEGER,
+  prop_zillow_id INTEGER,
+  prop_street_name VARCHAR(20),
+  prop_street_num INTEGER,
+  prop_city VARCHAR(20),
+  prop_state VARCHAR(20),
+  prop_zip VARCHAR(8),
+  prop_list_price DECIMAL(12,2),
+  creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (prop_id)
+  /*CONSTRAINT FK_prop_mls FOREIGN KEY(prop_mls) REFERENCES (prop_mls)*/
+);
+
 CREATE TABLE Offer (
-  ofr_id INTEGER NOT NULL,
+  ofr_id INTEGER NOT NULL AUTO_INCREMENT,
   ofr_prop_id INTEGER NOT NULL,
   ofr_byr_id INTEGER,
   ofr_slr_id INTEGER,
   ofr_current_version SMALLINT NOT NULL,
   ofr_status ENUM( 'incomplete',  'buyer_signed', 'seller_signed', 'executed', 'inactive') NOT NULL DEFAULT 'Incomplete',
-  ofr_byr_notes VARCHAR(255),
-  ofr_slr_notes VARCHAR(255),
   completion_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (ofr_id)
- /* CONSTRAINT FK_ofr_prop_id FOREIGN KEY(ofr_prop_id) REFERENCES Offer(ofr_prop_id),
-  CONSTRAINT FK_ofr_byr_id FOREIGN KEY(ofr_byr_id) REFERENCES Offer(ofr_byr_id),
-  CONSTRAINT FK_fr_slr_id FOREIGN KEY(fr_slr_id) REFERENCES Offer(fr_slr_id),
-  CONSTRAINT FK_ofr_current_version FOREIGN KEY(ofr_current_version) REFERENCES Offer(ofr_current_version)*/
+  PRIMARY KEY (ofr_id),
+  CONSTRAINT FK_ofr_prop_id FOREIGN KEY(ofr_prop_id) REFERENCES Property(prop_id),
+  CONSTRAINT FK_ofr_byr_id FOREIGN KEY(ofr_byr_id) REFERENCES User(usr_id),
+  CONSTRAINT FK_ofr_slr_id FOREIGN KEY(ofr_slr_id) REFERENCES User(usr_id)
 );
 
 CREATE TABLE OfferDetails (
@@ -83,8 +86,7 @@ CREATE TABLE OfferDetails (
   ofr_det_is_financing_req BOOL DEFAULT FALSE,
   ofr_det_fin_cmt_dt DATETIME,
   ofr_det_fin_appl_dt DATETIME,
-  ofr_is_contingency BOOL,
-  ofr_add_terms VARCHAR(255),
+  ofr_add_terms VARCHAR(800),
   ofr_buyer_agency_rights BOOL NOT NULL DEFAULT FALSE,
   ofr_seller_agency_rights BOOL NOT NULL DEFAULT FALSE,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -92,7 +94,7 @@ CREATE TABLE OfferDetails (
 );
 
 CREATE TABLE OfferVersion (
-  ofr_id INTEGER NOT NULL AUTO_INCREMENT,
+  ofr_id INTEGER NOT NULL,
   ver_num SMALLINT NOT NULL,
   ofr_det_id INTEGER NOT NULL,
   ver_byr_notes VARCHAR(255),
@@ -108,7 +110,7 @@ CREATE TABLE OfferVersion (
 );
 
 CREATE TABLE OfferFormType (
-  ofr_id INTEGER NOT NULL AUTO_INCREMENT,
+  ofr_id INTEGER NOT NULL,
   ft_id INTEGER NOT NULL,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (ofr_id,ft_id),
@@ -117,7 +119,7 @@ CREATE TABLE OfferFormType (
 );
 
 CREATE TABLE UserInfo (
-  usr_id INTEGER NOT NULL AUTO_INCREMENT,
+  usr_id INTEGER NOT NULL,
   usr_inf_first_name VARCHAR(20) NOT NULL,
   usr_inf_last_name VARCHAR(20) NOT NULL,
   usr_inf_middle_name VARCHAR(20),
@@ -125,18 +127,17 @@ CREATE TABLE UserInfo (
   usr_inf_agent BOOLEAN NOT NULL,
   usr_inf_gender ENUM('M', 'F', 'U'),
   usr_inf_is_registered BOOLEAN,
-  usr_inf_registration_date TIMESTAMP NOT NULL,
+  usr_inf_registration_date TIMESTAMP,
   usr_inf_email_verified BOOLEAN NOT NULL DEFAULT FALSE,
   usr_inf_phone_verified BOOLEAN NOT NULL DEFAULT FALSE,
   usr_inf_addr_str1 VARCHAR(50),
   usr_inf_addr_str2 VARCHAR(50),
-  usr_inf_addr_apt_num SMALLINT,
+  usr_inf_addr_apt_num VARCHAR(8),
   usr_inf_addr_zip VARCHAR(10),
   usr_inf_addr_city VARCHAR(20),
   usr_inf_addr_state VARCHAR(20),
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  /*usr_inf_profile_picture, ME: make this a blob?*/
-  /*Please check whether this sytax with primary and foreign keys named the same may give DB trouble*/
+  usr_inf_profile_picture MEDIUMBLOB,
   PRIMARY KEY (usr_id),
   CONSTRAINT FK_UI_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id)
 );
@@ -167,6 +168,7 @@ CREATE TABLE ResoProperty (
   reso_BuyerAgentStateLicense VARCHAR(50),
   reso_City VARCHAR(50),
   reso_CityRegion VARCHAR(150),
+  reso_CountyOrParish VARCHAR(50),
   reso_Contingency VARCHAR(1024),
   reso_Disclosures VARCHAR(4000),
   reso_DocumentsAvailable VARCHAR(1024),
@@ -239,7 +241,7 @@ CREATE TABLE ResoProperty (
 );
 
 CREATE TABLE Preference (
-  usr_id INTEGER NOT NULL AUTO_INCREMENT,
+  usr_id INTEGER NOT NULL,
   pref_amount DECIMAL(12,2) NOT NULL DEFAULT 0,
   pref_deposit DECIMAL(12,2) NOT NULL DEFAULT 1000, 
   pref_pns_deposit DECIMAL(5,2) NOT NULL DEFAULT 5,
@@ -267,21 +269,6 @@ CREATE TABLE Preference (
   CONSTRAINT FK_Pref_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id)
 );
 
-CREATE TABLE Property (
-  prop_id INTEGER AUTO_INCREMENT,
-  reso_property_key INTEGER,
-  prop_mls INTEGER,
-  prop_zillow_id INTEGER,
-  prop_street_name VARCHAR(20),
-  prop_street_num INTEGER,
-  prop_city VARCHAR(20),
-  prop_state VARCHAR(20),
-  prop_zip VARCHAR(8),
-  prop_list_price DECIMAL(12,2),
-  creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (prop_id)
-  /*CONSTRAINT FK_prop_mls FOREIGN KEY(prop_mls) REFERENCES (prop_mls)*/
-);
 
 CREATE TABLE UserProperty (
   usr_id INTEGER NOT NULL,
@@ -331,8 +318,6 @@ CREATE TABLE OfferContingency (
   ofr_ctg_note VARCHAR(150),
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (ofr_id,ctg_id),
-  /*ME: syntax incorrect for combined primary key
-  ADD CONSTRAINT uq_yourtablename UNIQUE(column1, column2);*/
   CONSTRAINT FK_OC_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id),
   CONSTRAINT FK_ctg_id FOREIGN KEY(ctg_id) REFERENCES Contingency(ctg_id)
 );
