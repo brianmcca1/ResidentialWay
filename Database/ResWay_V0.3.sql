@@ -1,5 +1,6 @@
 /* SQL script to create the database for the Residential Way platform. */
 
+DROP database IF EXISTS ResWay1;
 CREATE database ResWay1;
 use ResWay1;
 
