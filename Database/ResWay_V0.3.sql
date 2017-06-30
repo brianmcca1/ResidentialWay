@@ -264,7 +264,7 @@ CREATE TABLE Preference (
   pref_is_contingency BOOL NOT NULL DEFAULT FALSE,
   pref_add_terms VARCHAR(255),
   pref_last_edit_date TIMESTAMP,
-  /*pref_form_family ENUM( ) NOT NULL,*/
+  pref_form_family ENUM('General', 'Custom', 'MAR', 'GBREB' ) NOT NULL DEFAULT 'General',
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (usr_id),
   CONSTRAINT FK_Pref_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id)
@@ -297,7 +297,7 @@ CREATE TABLE Form (
   ft_id INTEGER NOT NULL,
   form_source MEDIUMBLOB NOT NULL,
   form_name VARCHAR(60) NOT NULL,
-  form_family VARCHAR(50),
+  form_family ENUM('General', 'Custom', 'MAR', 'GBREB') DEFAULT 'General',
   form_no_pgs TINYINT,
   creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (form_id),
