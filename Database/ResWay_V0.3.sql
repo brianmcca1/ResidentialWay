@@ -329,7 +329,7 @@ CREATE TABLE OfferForm (
 );
 
 CREATE TABLE PreferredUserContingency (
-  usr_id INTELL,
+  usr_id INTEGER NOT NULL,
   ctg_id INTEGER NOT NULL,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (usr_id,ctg_id),
@@ -361,10 +361,12 @@ CREATE TABLE FieldMapping (
 CREATE TABLE UserContact (
   usr_id INTEGER NOT NULL,
   uc_contact_id INTEGER NOT NULL,
+  uc_form INTEGER,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (usr_id,uc_contact_id),
   CONSTRAINT FK_Ucontact_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id),
-  CONSTRAINT FK_uc_contact_id FOREIGN KEY(uc_contact_id) REFERENCES User(usr_id)
+  CONSTRAINT FK_uc_contact_id FOREIGN KEY(uc_contact_id) REFERENCES User(usr_id),
+  CONSTRAINT FK_uc_form FOREIGN KEY(uc_form) REFERENCES Form(form_id)
 );
 
 CREATE TABLE UserOffer (
@@ -382,9 +384,9 @@ CREATE TABLE UserOffer (
 
 CREATE TABLE Document (
   doc_id INTEGER NOT NULL AUTO_INCREMENT,
-  ofr_id INTEGER NOT NULL,
+  ofr_id INTEGER,
   doc_upld_by_id INTEGER NOT NULL,
-  ft_id INTEGER NOT NULL,
+  ft_id INTEGER,
   doc_title VARCHAR(35) NOT NULL,
   doc_ext VARCHAR(10) NOT NULL,
   doc_contents MEDIUMBLOB NOT NULL,
@@ -394,6 +396,15 @@ CREATE TABLE Document (
   CONSTRAINT FK_Doc_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id), 
   CONSTRAINT FK_Doc_upld_id FOREIGN KEY(doc_upld_by_id) REFERENCES User(usr_id), 
   CONSTRAINT FK_Doc_ft_id FOREIGN KEY(ft_id) REFERENCES FormType(ft_id) 
+);
+
+CREATE TABLE OfferDocument (
+  doc_id INTEGER NOT NULL,
+  ofr_id INTEGER NOT NULL,
+  creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(doc_id, ofr_id),
+  CONSTRAINT FK_od_doc_id FOREIGN KEY(doc_id) REFERENCES Document(doc_id),
+  CONSTRAINT FK_od_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id)
 );
 
 CREATE TABLE AuditTrail (
