@@ -424,7 +424,29 @@ CREATE TABLE Invitation (
 /*me: in process*/
 );
 
+CREATE TABLE InactiveAgent (
+  agent_id INTEGER NOT NULL AUTO_INCREMENT,
+  agent_first_name VARCHAR(20),
+  agent_last_name VARCHAR(20),
+  agent_middle_name VARCHAR(20),
+  agent_email VARCHAR(35),
+  agent_ph_number VARCHAR(20),
+  PRIMARY KEY(agent_id)
+);
 
+CREATE TABLE SharedVersion (
+  share_id INTEGER NOT NULL AUTO_INCREMENT,
+  ver_num INTEGER NOT NULL,
+  ofr_id INTEGER NOT NULL,
+  share_sender INTEGER NOT NULL,
+  share_rec INTEGER NOT NULL,
+  share_message VARCHAR(500),
+  creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (share_id),
+  CONSTRAINT FK_Share_ofr_id FOREIGN KEY(ofr_id) REFERENCES Offer(ofr_id),
+  CONSTRAINT FK_Share_sender FOREIGN KEY(share_sender) REFERENCES User(usr_id),
+  CONSTRAINT FK_Share_rec FOREIGN KEY(share_rec) REFERENCES User(usr_id)
+  );
 
 CREATE INDEX User_Name ON UserInfo(usr_inf_first_name, usr_inf_middle_name, usr_inf_last_name);
 CREATE INDEX User_Email ON User(usr_email);
