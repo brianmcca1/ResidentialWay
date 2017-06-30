@@ -153,6 +153,7 @@ CREATE TABLE Offer (
   ofr_current_version SMALLINT NOT NULL,
   ofr_status ENUM( 'incomplete',  'buyer_signed', 'seller_signed', 'executed', 'inactive') NOT NULL DEFAULT 'Incomplete',
   ofr_execution_date TIMESTAMP,
+  ofr_final_package MEDIUMBLOB,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (ofr_id),
   CONSTRAINT FK_ofr_prop_id FOREIGN KEY(ofr_prop_id) REFERENCES Property(prop_id)
@@ -269,6 +270,7 @@ CREATE TABLE Preference (
 CREATE TABLE UserProperty (
   usr_id INTEGER NOT NULL,
   prop_id INTEGER NOT NULL,
+  usr_prop_role ENUM('owner', 'agent') NOT NULL,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (prop_id,usr_id),
   CONSTRAINT FK_UP_usr_id FOREIGN KEY(usr_id) REFERENCES User(usr_id),
