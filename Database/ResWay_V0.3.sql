@@ -136,6 +136,7 @@ CREATE TABLE Property (
   prop_id INTEGER AUTO_INCREMENT,
   reso_id INTEGER,
   prop_zillow_id INTEGER,
+  prop_unit_num VARCHAR(4),
   prop_street_name VARCHAR(20),
   prop_street_num INTEGER,
   prop_city VARCHAR(20),
