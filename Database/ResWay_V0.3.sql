@@ -305,7 +305,6 @@ CREATE TABLE Contingency (
   ctg_id INTEGER NOT NULL AUTO_INCREMENT,
   ctg_name VARCHAR(20) NOT NULL,
   ctg_desc VARCHAR(255),
-  ctg_value BOOL NOT NULL DEFAULT TRUE,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (ctg_id)
 );
@@ -329,8 +328,8 @@ CREATE TABLE OfferForm (
   CONSTRAINT FK_form_id FOREIGN KEY(form_id) REFERENCES Form(form_id)
 );
 
-CREATE TABLE UserContingency (
-  usr_id INTEGER NOT NULL,
+CREATE TABLE PreferredUserContingency (
+  usr_id INTELL,
   ctg_id INTEGER NOT NULL,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (usr_id,ctg_id),
