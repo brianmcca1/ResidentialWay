@@ -135,7 +135,6 @@ CREATE TABLE ResoProperty (
 CREATE TABLE Property (
   prop_id INTEGER AUTO_INCREMENT,
   reso_id INTEGER,
-  prop_mls INTEGER,
   prop_zillow_id INTEGER,
   prop_street_name VARCHAR(20),
   prop_street_num INTEGER,
@@ -151,16 +150,12 @@ CREATE TABLE Property (
 CREATE TABLE Offer (
   ofr_id INTEGER NOT NULL AUTO_INCREMENT,
   ofr_prop_id INTEGER NOT NULL,
-  ofr_byr_id INTEGER,
-  ofr_slr_id INTEGER,
   ofr_current_version SMALLINT NOT NULL,
   ofr_status ENUM( 'incomplete',  'buyer_signed', 'seller_signed', 'executed', 'inactive') NOT NULL DEFAULT 'Incomplete',
-  completion_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  ofr_execution_date TIMESTAMP,
   creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (ofr_id),
-  CONSTRAINT FK_ofr_prop_id FOREIGN KEY(ofr_prop_id) REFERENCES Property(prop_id),
-  CONSTRAINT FK_ofr_byr_id FOREIGN KEY(ofr_byr_id) REFERENCES User(usr_id),
-  CONSTRAINT FK_ofr_slr_id FOREIGN KEY(ofr_slr_id) REFERENCES User(usr_id)
+  CONSTRAINT FK_ofr_prop_id FOREIGN KEY(ofr_prop_id) REFERENCES Property(prop_id)
 );
 
 CREATE TABLE OfferDetails (
