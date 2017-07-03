@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: ReswayServerV1
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Kevin
+Implementation-Vendor-Id: com.resway.server
+Build-Jdk: 1.8.0_92
+Implementation-URL: http://projects.spring.io/spring-boot/ReswayServer
+ V1/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+

@@ -1,0 +1,10 @@
+add_header=true
+add_todo=false
+eclipse.preferences.version=1
+header_text=/* Copyright (\u00A9) Residential Way, 2016 - ${year}, All rights reserved.\r\n * \r * The intellectual and technical concepts contained herein are proprietary to Residential Way and its suppliers and may be covered by U.S. and Foreign Patents,\r\n * patents in process, and are protected by trade secret or copyright law. Unauthorized copying of this file, via any medium is strictly prohibited.\r\n * \r\n * Proprietary and confidential.\r\n */
+mode=mode_keep
+multi_header=true
+project_specific_settings=true
+replacements=<?xml version\="1.0" standalone\="yes"?>\n\n<replacements>\n<replacement key\="get" scope\="1" mode\="0">Fetches the</replacement>\n<replacement key\="set" scope\="1" mode\="0">Sets the</replacement>\n<replacement key\="add" scope\="1" mode\="0">Adds the</replacement>\n<replacement key\="edit" scope\="1" mode\="0">Edits the</replacement>\n<replacement key\="remove" scope\="1" mode\="0">Removes the</replacement>\n<replacement key\="init" scope\="1" mode\="0">Inits the</replacement>\n<replacement key\="parse" scope\="1" mode\="0">Parses the</replacement>\n<replacement key\="create" scope\="1" mode\="0">Creates the</replacement>\n<replacement key\="build" scope\="1" mode\="0">Builds the</replacement>\n<replacement key\="is" scope\="1" mode\="0">Checks if is</replacement>\n<replacement key\="print" scope\="1" mode\="0">Prints the</replacement>\n<replacement key\="has" scope\="1" mode\="0">Checks for</replacement>\n</replacements>\n\n
+tag_order=@author,@since,@version,@param,@return,@throws,@see,@serial,@serialField,@serialData,@deprecated
+use_internal_formatter=true
