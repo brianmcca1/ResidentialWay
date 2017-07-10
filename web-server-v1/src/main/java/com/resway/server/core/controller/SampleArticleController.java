@@ -52,7 +52,7 @@ public class SampleArticleController extends AbstractController {
 	 * @return the article by id
 	 */
 	@RequestMapping(value = "articles/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SampleArticleResponseDTO> getArticleById(@PathVariable("id") Integer id) {
+	public ResponseEntity<SampleArticleResponseDTO> read(@PathVariable("id") Integer id) {
 		final SampleArticleDTO dto = new SampleArticleDTO();
 		dto.setArticleId(id);
 		final SampleArticleResponseDTO responseDTO = articleService.read(dto);
@@ -65,7 +65,7 @@ public class SampleArticleController extends AbstractController {
 	 * @return the all articles
 	 */
 	@RequestMapping(value = "articles", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SampleArticleResponseDTO> getAllArticles() {
+	public ResponseEntity<SampleArticleResponseDTO> fetchAll() {
 		final SampleArticleResponseDTO responseDTO = articleService.readAll();
 		return new ResponseEntity<SampleArticleResponseDTO>(responseDTO, HttpStatus.OK);
 	}
@@ -80,7 +80,7 @@ public class SampleArticleController extends AbstractController {
 	 * @return the response entity
 	 */
 	@RequestMapping(value = "articles", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SampleArticleResponseDTO> addArticle(@RequestBody SampleArticleDTO requestDTO) {
+	public ResponseEntity<SampleArticleResponseDTO> create(@RequestBody SampleArticleDTO requestDTO) {
 		final SampleArticleResponseDTO responseDTO = articleService.create(requestDTO);
 		return new ResponseEntity<SampleArticleResponseDTO>(responseDTO, responseDTO.getStatusMessage().getStatus());
 	}
@@ -93,7 +93,7 @@ public class SampleArticleController extends AbstractController {
 	 * @return the response entity
 	 */
 	@RequestMapping(value = "articles/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> updateArticle(@PathVariable("id") Integer id, @RequestBody SampleArticleDTO requestDTO) {
+	public ResponseEntity<Void> update(@PathVariable("id") Integer id, @RequestBody SampleArticleDTO requestDTO) {
 		requestDTO.setArticleId(id);
 		SampleArticleResponseDTO responseDTO = articleService.update(requestDTO);
 		return new ResponseEntity<Void>(responseDTO.getStatusMessage().getStatus());
@@ -107,7 +107,7 @@ public class SampleArticleController extends AbstractController {
 	 * @return the response entity
 	 */
 	@RequestMapping(value = "articles/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> deleteArticle(@PathVariable("id") Integer id) {
+	public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
 		final SampleArticleDTO requestDTO = new SampleArticleDTO();
 		requestDTO.setArticleId(id);
 		SampleArticleResponseDTO responseDTO = articleService.delete(requestDTO);
