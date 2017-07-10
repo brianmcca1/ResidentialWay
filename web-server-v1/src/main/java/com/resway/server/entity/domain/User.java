@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
 import com.resway.server.entity.key.UserKey;
+import com.resway.server.framework.entity.domain.AbstractDomainKey;
 import com.resway.server.framework.entity.domain.AbstractDomainObject;
 
 /**
@@ -23,9 +24,9 @@ import com.resway.server.framework.entity.domain.AbstractDomainObject;
  *
  */
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 public class User extends AbstractDomainObject {
-	
+
 	@Override
 	public String toString() {
 		return "User [key=" + key + ", usrEmail=" + usrEmail + ", usrPhNumber=" + usrPhNumber + ", usrPassword="
@@ -37,7 +38,7 @@ public class User extends AbstractDomainObject {
 	 */
 	private static final long serialVersionUID = -3780447284189200304L;
 	@EmbeddedId
-	@AttributeOverride(name = "usrId", column = @Column(name = "usr_id"))
+	@AttributeOverride(name = "userId", column = @Column(name = "usr_id"))
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private UserKey key;
 	/** The user's email */
@@ -61,12 +62,14 @@ public class User extends AbstractDomainObject {
 		super();
 	}
 
+	@Override
 	public UserKey getKey() {
 		return key;
 	}
 
-	public void setKey(UserKey key) {
-		this.key = key;
+	@Override
+	public void setKey(AbstractDomainKey key) {
+		this.key = (UserKey) key;
 	}
 
 	public String getUsrEmail() {

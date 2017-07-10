@@ -1,9 +1,16 @@
 package com.resway.server.entity.key;
 
+import javax.persistence.Embeddable;
+
 import com.resway.server.framework.entity.domain.AbstractDomainKey;
 
+@Embeddable
 public class UserKey extends AbstractDomainKey {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3487842173054048014L;
 	private int userId;
 	
 	public void setUserId(int userId) {
