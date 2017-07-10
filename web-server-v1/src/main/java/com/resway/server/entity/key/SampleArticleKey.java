@@ -8,6 +8,8 @@
  */
 package com.resway.server.entity.key;
 
+import javax.persistence.Embeddable;
+
 import com.resway.server.framework.entity.domain.AbstractDomainKey;
 
 /**
@@ -16,6 +18,7 @@ import com.resway.server.framework.entity.domain.AbstractDomainKey;
  * @author Kevin
  * @since 1.0.0
  */
+@Embeddable
 public class SampleArticleKey extends AbstractDomainKey {
 	/**
 	 * Serial version id.

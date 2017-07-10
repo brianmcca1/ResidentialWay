@@ -8,9 +8,7 @@
  */
 package com.resway.server.core.service;
 
-import java.util.List;
-
-import com.resway.server.dto.SampleArticleRequestDTO;
+import com.resway.server.dto.SampleArticleDTO;
 import com.resway.server.dto.SampleArticleResponseDTO;
 
 /**
@@ -26,7 +24,7 @@ public interface ISampleArticleService {
 	 * @param article
 	 *            the article
 	 */
-	public SampleArticleResponseDTO create(SampleArticleRequestDTO articleDTO);
+	public SampleArticleResponseDTO create(SampleArticleDTO articleDTO);
 
 	/**
 	 * Fetches the article.
@@ -35,7 +33,7 @@ public interface ISampleArticleService {
 	 *            the key
 	 * @return the sample article
 	 */
-	public SampleArticleResponseDTO read(SampleArticleRequestDTO articleDTO);
+	public SampleArticleResponseDTO read(SampleArticleDTO articleDTO);
 
 	/**
 	 * Updates the article.
@@ -43,7 +41,7 @@ public interface ISampleArticleService {
 	 * @param article
 	 *            the article
 	 */
-	public void update(SampleArticleRequestDTO articleDTO);
+	public SampleArticleResponseDTO update(SampleArticleDTO articleDTO);
 
 	/**
 	 * Deletes the article.
@@ -51,12 +49,12 @@ public interface ISampleArticleService {
 	 * @param article
 	 *            the article
 	 */
-	public void delete(SampleArticleRequestDTO articleDTO);
+	public SampleArticleResponseDTO delete(SampleArticleDTO articleDTO);
 
 	/**
 	 * Fetches all the article.
 	 *
 	 * @return the list
 	 */
-	public List<SampleArticleResponseDTO> readAll();
+	public SampleArticleResponseDTO readAll();
 }

@@ -8,6 +8,7 @@
  */
 package com.resway.server.entity.domain;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -16,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
 import com.resway.server.entity.key.SampleArticleKey;
+import com.resway.server.framework.entity.domain.AbstractDomainKey;
 import com.resway.server.framework.entity.domain.AbstractDomainObject;
 
 /**
@@ -31,8 +33,8 @@ public class SampleArticle extends AbstractDomainObject {
 	private static final long serialVersionUID = 7072648542528280535L;
 	/** Uniquely identifies the article. */
 	@EmbeddedId
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "article_id")
+	@AttributeOverride(name = "articleId", column = @Column(name = "article_id"))
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private SampleArticleKey key;
 	/** The title. */
 	@Column(name = "title")
@@ -53,6 +55,7 @@ public class SampleArticle extends AbstractDomainObject {
 	 *
 	 * @return the key
 	 */
+	@Override
 	public SampleArticleKey getKey() {
 		return key;
 	}
@@ -63,8 +66,9 @@ public class SampleArticle extends AbstractDomainObject {
 	 * @param key
 	 *            the key to set
 	 */
-	public void setKey(SampleArticleKey key) {
-		this.key = key;
+	@Override
+	public void setKey(AbstractDomainKey key) {
+		this.key = (SampleArticleKey) key;
 	}
 
 	/**

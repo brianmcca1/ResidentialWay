@@ -19,4 +19,29 @@ package com.resway.server.framework.dto;
  * @author Kevin
  */
 public class BaseResponseDTO extends AbstractDTO {
+	/**
+	 * Indicates the state of the transaction.
+	 */
+	private StatusMessage statusMessage;
+
+	/**
+	 * Fetches the state of the transaction.
+	 *
+	 * @return {@link StatusMessage} object that return the state of the
+	 *         transaction.
+	 */
+	public StatusMessage getStatusMessage() {
+		return statusMessage;
+	}
+
+	/**
+	 * Sets the state of the transaction.
+	 *
+	 * @param statusMessage
+	 *            {@link StatusMessage} object that return the state of the
+	 *            transaction.
+	 */
+	public void setStatusMessage(StatusMessage statusMessage) {
+		this.statusMessage = statusMessage;
+	}
 }

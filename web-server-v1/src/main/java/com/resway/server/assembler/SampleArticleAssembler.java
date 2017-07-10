@@ -8,7 +8,7 @@
  */
 package com.resway.server.assembler;
 
-import com.resway.server.dto.SampleArticleRequestDTO;
+import com.resway.server.dto.SampleArticleDTO;
 import com.resway.server.dto.SampleArticleResponseDTO;
 import com.resway.server.entity.domain.SampleArticle;
 import com.resway.server.entity.key.SampleArticleKey;
@@ -16,13 +16,13 @@ import com.resway.server.framework.assembler.IAbstractAssembler;
 
 /**
  * Assembler between {@link SampleArticle}, {@link SampleArticleKey} and
- * {@link SampleArticleRequestDTO}, {@link SampleArticleResponseDTO} conversion
- * for test purpose.
+ * {@link SampleArticleDTO}, {@link SampleArticleResponseDTO} conversion for
+ * test purpose.
  *
  * @author Kevin
  * @since 1.0.0
  */
-public class SampleArticleAssembler implements IAbstractAssembler<SampleArticle, SampleArticleRequestDTO, SampleArticleKey> {
+public class SampleArticleAssembler implements IAbstractAssembler<SampleArticle, SampleArticleDTO, SampleArticleKey> {
 	/*
 	 * (non-Javadoc)
 	 * @see
@@ -30,7 +30,7 @@ public class SampleArticleAssembler implements IAbstractAssembler<SampleArticle,
 	 * (com.resway.server.framework.dto.AbstractDTO)
 	 */
 	@Override
-	public SampleArticle toDomainObject(SampleArticleRequestDTO dto) {
+	public SampleArticle toDomainObject(SampleArticleDTO dto) {
 		final SampleArticle domainObj = new SampleArticle();
 		domainObj.setTitle(dto.getTitle());
 		domainObj.setCategory(dto.getCategory());
@@ -45,8 +45,8 @@ public class SampleArticleAssembler implements IAbstractAssembler<SampleArticle,
 	 * (com.resway.server.framework.entity.domain.AbstractDomainObject)
 	 */
 	@Override
-	public SampleArticleRequestDTO toDTOObject(SampleArticle entity) {
-		final SampleArticleRequestDTO requestDTO = new SampleArticleRequestDTO();
+	public SampleArticleDTO toDTOObject(SampleArticle entity) {
+		final SampleArticleDTO requestDTO = new SampleArticleDTO();
 		requestDTO.setArticleId(entity.getKey().getArticleId());
 		requestDTO.setCategory(entity.getCategory());
 		requestDTO.setTitle(entity.getTitle());
@@ -60,10 +60,9 @@ public class SampleArticleAssembler implements IAbstractAssembler<SampleArticle,
 	 * com.resway.server.framework.dto.AbstractDTO)
 	 */
 	@Override
-	public SampleArticleKey toDomainKey(SampleArticleRequestDTO dto) {
-		SampleArticleKey key = null;
+	public SampleArticleKey toDomainKey(SampleArticleDTO dto) {
+		final SampleArticleKey key = new SampleArticleKey();
 		if (dto.getArticleId() != 0) {
-			key = new SampleArticleKey();
 			key.setArticleId(dto.getArticleId());
 		}
 		return key;
@@ -76,24 +75,9 @@ public class SampleArticleAssembler implements IAbstractAssembler<SampleArticle,
 	 * (com.resway.server.framework.entity.domain.AbstractDomainKey)
 	 */
 	@Override
-	public SampleArticleRequestDTO fromDomainKeytoDTOObject(SampleArticleKey key) {
-		final SampleArticleRequestDTO requestDTO = new SampleArticleRequestDTO();
+	public SampleArticleDTO fromDomainKeytoDTOObject(SampleArticleKey key) {
+		final SampleArticleDTO requestDTO = new SampleArticleDTO();
 		requestDTO.setArticleId(key.getArticleId());
 		return requestDTO;
-	}
-
-	/**
-	 * To response DTO object.
-	 *
-	 * @param entity
-	 *            the entity
-	 * @return the sample article response DTO
-	 */
-	public SampleArticleResponseDTO toResponseDTOObject(SampleArticle entity) {
-		final SampleArticleResponseDTO responseDTO = new SampleArticleResponseDTO();
-		responseDTO.setArticleId(entity.getKey().getArticleId());
-		responseDTO.setCategory(entity.getCategory());
-		responseDTO.setTitle(entity.getTitle());
-		return responseDTO;
 	}
 }

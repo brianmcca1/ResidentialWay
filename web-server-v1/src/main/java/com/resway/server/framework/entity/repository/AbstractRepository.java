@@ -39,8 +39,6 @@ public abstract class AbstractRepository<T extends AbstractDomainObject, K exten
 	/** The entity manager. */
 	@PersistenceContext
 	private EntityManager entityManager;
-	//	private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("RWTesting");
-	//	private final EntityManager entityManager = emf.createEntityManager();
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(AbstractRepository.class.getName());
 
@@ -59,11 +57,11 @@ public abstract class AbstractRepository<T extends AbstractDomainObject, K exten
 	@SuppressWarnings("unchecked")
 	public T read(Class<T> entityClass, K key) throws Exception {
 		final Session session = entityManager.unwrap(Session.class);
-		//		final Transaction transaction = session.beginTransaction();
-		//		transaction.begin();
-		final AbstractDomainObject entity = session.get(entityClass, key);
-		//		transaction.commit();
+		//		session.getTransaction().begin();
+		final AbstractDomainObject entity = entityManager.find(entityClass, key);
+		//		session.getTransaction().commit();
 		//		session.close();
+		LOGGER.fine("/nEntity READ successful/n");
 		return (T) entity;
 	};
 
@@ -80,12 +78,12 @@ public abstract class AbstractRepository<T extends AbstractDomainObject, K exten
 	 */
 	public T create(T object) throws Exception {
 		final Session session = entityManager.unwrap(Session.class);
-		//		final Transaction transaction = session.beginTransaction();
-		//		transaction.begin();
-		session.save(object);
-		//		transaction.commit();
+		//		session.getTransaction().begin();
+		final AbstractDomainKey key = (AbstractDomainKey) session.save(object);
+		session.flush();
+		//		session.getTransaction().commit();
 		//		session.close();
-		LOGGER.fine("");
+		LOGGER.fine("Entity CREATED successfully.");
 		return object;
 	};
 
@@ -100,11 +98,11 @@ public abstract class AbstractRepository<T extends AbstractDomainObject, K exten
 	 */
 	public void update(T object) throws Exception {
 		final Session session = entityManager.unwrap(Session.class);
-		//		final Transaction transaction = session.beginTransaction();
-		//		transaction.begin();
+		//		session.getTransaction().begin();
 		session.update(object);
-		//		transaction.commit();
+		//		session.getTransaction().commit();
 		//		session.close();
+		LOGGER.fine("Entity UPDATED successfully.");
 	};
 
 	/**
@@ -119,10 +117,10 @@ public abstract class AbstractRepository<T extends AbstractDomainObject, K exten
 	 */
 	public void delete(T entity) throws Exception {
 		final Session session = entityManager.unwrap(Session.class);
-		//		final Transaction transaction = session.beginTransaction();
-		//		transaction.begin();
-		session.delete(entity);
-		//		transaction.commit();
+		//		session.getTransaction().begin();
+		entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
+		//		session.getTransaction().commit();
 		//		session.close();
+		LOGGER.fine("Entity DELETED successfully.");
 	};
 }

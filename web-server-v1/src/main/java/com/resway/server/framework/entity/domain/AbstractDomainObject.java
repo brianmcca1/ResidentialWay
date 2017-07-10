@@ -23,4 +23,20 @@ public class AbstractDomainObject implements Serializable {
 	 * Serial version id
 	 */
 	private static final long serialVersionUID = -5926425674224614178L;
+	private AbstractDomainKey key;
+
+	/**
+	 * @return the key
+	 */
+	public AbstractDomainKey getKey() {
+		return key;
+	}
+
+	/**
+	 * @param key
+	 *            the key to set
+	 */
+	public void setKey(AbstractDomainKey key) {
+		this.key = key;
+	}
 }

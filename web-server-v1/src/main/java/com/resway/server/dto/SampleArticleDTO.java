@@ -17,7 +17,7 @@ import com.resway.server.framework.dto.BaseRequestDTO;
  * @author Kevin
  * @since 1.0.0
  */
-public class SampleArticleRequestDTO extends BaseRequestDTO {
+public class SampleArticleDTO extends BaseRequestDTO {
 	/** Unique id of the article. */
 	private int articleId;
 	/** The title. */

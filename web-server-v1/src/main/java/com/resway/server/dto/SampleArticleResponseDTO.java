@@ -8,6 +8,9 @@
  */
 package com.resway.server.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.resway.server.entity.domain.SampleArticle;
 import com.resway.server.framework.dto.BaseResponseDTO;
 
@@ -18,56 +21,33 @@ import com.resway.server.framework.dto.BaseResponseDTO;
  * @since 1.0.0
  */
 public class SampleArticleResponseDTO extends BaseResponseDTO {
-	/** Unique id of the article. */
-	private int articleId;
-	/** The title. */
-	private String title;
-	/** The category. */
-	private String category;
-
 	/**
-	 * @return the articleId
+	 * Indicates the list of {@link SampleArticleDTO}
 	 */
-	public int getArticleId() {
-		return articleId;
+	private List<SampleArticleDTO> dtos;
+
+	public SampleArticleResponseDTO() {
+		super();
+		dtos = new ArrayList<SampleArticleDTO>();
 	}
 
 	/**
-	 * @param articleId
-	 *            the articleId to set
+	 * Fetches the list of {@link SampleArticleDTO}
+	 *
+	 * @return List of {@link SampleArticleDTO}
 	 */
-	public void setArticleId(int articleId) {
-		this.articleId = articleId;
+	public List<SampleArticleDTO> getDtos() {
+		return dtos;
 	}
 
 	/**
-	 * @return the title
+	 * Sets the list of {@link SampleArticleDTO}
+	 *
+	 * @param dtos
+	 *            List of {@link SampleArticleDTO}
 	 */
-	public String getTitle() {
-		return title;
-	}
-
-	/**
-	 * @param title
-	 *            the title to set
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	/**
-	 * @return the category
-	 */
-	public String getCategory() {
-		return category;
-	}
-
-	/**
-	 * @param category
-	 *            the category to set
-	 */
-	public void setCategory(String category) {
-		this.category = category;
+	public void setDtos(List<SampleArticleDTO> dtos) {
+		this.dtos = dtos;
 	}
 
 	/*
@@ -76,6 +56,6 @@ public class SampleArticleResponseDTO extends BaseResponseDTO {
 	 */
 	@Override
 	public String toString() {
-		return "SampleArticleResponseDTO [articleId=" + articleId + ", title=" + title + ", category=" + category + "]";
+		return "SampleArticleResponseDTO [dtos=" + dtos + "]";
 	}
 }

@@ -12,15 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.resway.server.assembler.SampleArticleAssembler;
-import com.resway.server.dto.SampleArticleRequestDTO;
+import com.resway.server.common.ApplicationHelper;
+import com.resway.server.dto.SampleArticleDTO;
 import com.resway.server.dto.SampleArticleResponseDTO;
 import com.resway.server.entity.domain.SampleArticle;
 import com.resway.server.entity.key.SampleArticleKey;
 import com.resway.server.entity.repository.ISampleArticleRepository;
 import com.resway.server.framework.core.service.AbstractService;
+import com.resway.server.framework.dto.StatusMessage;
 
 /**
  * The service class for {@link SampleArticle} object that interacts with the
@@ -48,15 +51,18 @@ public class SampleArticleService extends AbstractService implements ISampleArti
 	 * server.dto.SampleArticleRequestDTO)
 	 */
 	@Override
-	public SampleArticleResponseDTO read(SampleArticleRequestDTO articleDTO) {
+	public SampleArticleResponseDTO read(SampleArticleDTO articleDTO) {
 		final SampleArticleAssembler assembler = new SampleArticleAssembler();
-		SampleArticleResponseDTO respObject = null;
+		SampleArticleResponseDTO respObject = new SampleArticleResponseDTO();
 		try {
 			final SampleArticleKey key = assembler.toDomainKey(articleDTO);
 			final SampleArticle domainObject = sampleArticleRepo.read(key);
-			respObject = assembler.toResponseDTOObject(domainObject);
+			SampleArticleDTO respDTO = assembler.toDTOObject(domainObject);
+			respObject.getDtos().add(respDTO);
+			respObject.setStatusMessage(new StatusMessage(HttpStatus.OK));
 		} catch (final Exception ex) {
 			ex.printStackTrace();
+			respObject.setStatusMessage(new StatusMessage(HttpStatus.BAD_REQUEST));
 		}
 		return respObject;
 	}
@@ -66,18 +72,22 @@ public class SampleArticleService extends AbstractService implements ISampleArti
 	 * @see com.resway.server.core.service.ISampleArticleService#readAll()
 	 */
 	@Override
-	public List<SampleArticleResponseDTO> readAll() {
-		final List<SampleArticleResponseDTO> articlesList = new ArrayList<SampleArticleResponseDTO>();
+	public SampleArticleResponseDTO readAll() {
+		final SampleArticleResponseDTO response = new SampleArticleResponseDTO();
 		final SampleArticleAssembler assembler = new SampleArticleAssembler();
 		try {
 			final List<SampleArticle> articles = sampleArticleRepo.readAll();
+			List<SampleArticleDTO> dtosList = new ArrayList<SampleArticleDTO>(articles.size());
 			for (final SampleArticle sampleArticle : articles) {
-				articlesList.add(assembler.toResponseDTOObject(sampleArticle));
+				dtosList.add(assembler.toDTOObject(sampleArticle));
 			}
+			response.setDtos(dtosList);
+			response.setStatusMessage(new StatusMessage(HttpStatus.OK));
 		} catch (final Exception ex) {
 			ex.printStackTrace();
+			response.setStatusMessage(new StatusMessage(HttpStatus.BAD_REQUEST));
 		}
-		return articlesList;
+		return response;
 	}
 
 	/*
@@ -87,17 +97,20 @@ public class SampleArticleService extends AbstractService implements ISampleArti
 	 * .server.dto.SampleArticleRequestDTO)
 	 */
 	@Override
-	public SampleArticleResponseDTO create(SampleArticleRequestDTO articleDTO) {
+	public SampleArticleResponseDTO create(SampleArticleDTO articleDTO) {
 		final SampleArticleAssembler assembler = new SampleArticleAssembler();
 		SampleArticle article = assembler.toDomainObject(articleDTO);
-		SampleArticleResponseDTO respObject = null;
+		SampleArticleResponseDTO response = new SampleArticleResponseDTO();
 		try {
 			article = sampleArticleRepo.create(article);
-			respObject = assembler.toResponseDTOObject(article);
+			SampleArticleDTO respDTO = assembler.toDTOObject(article);
+			response.getDtos().add(respDTO);
+			response.setStatusMessage(new StatusMessage(HttpStatus.CREATED));
 		} catch (final Exception ex) {
 			ex.printStackTrace();
+			response.setStatusMessage(new StatusMessage(HttpStatus.BAD_REQUEST));
 		}
-		return respObject;
+		return response;
 	}
 
 	/*
@@ -107,13 +120,20 @@ public class SampleArticleService extends AbstractService implements ISampleArti
 	 * .server.dto.SampleArticleRequestDTO)
 	 */
 	@Override
-	public void update(SampleArticleRequestDTO articleDTO) {
+	public SampleArticleResponseDTO update(SampleArticleDTO articleDTO) {
 		final SampleArticleAssembler assembler = new SampleArticleAssembler();
-		final SampleArticle article = assembler.toDomainObject(articleDTO);
+		final SampleArticleResponseDTO response = new SampleArticleResponseDTO();
 		try {
-			sampleArticleRepo.update(article);
+			final SampleArticle originalObject = sampleArticleRepo.read(assembler.toDomainKey(articleDTO));
+			final SampleArticle objToUpdate = assembler.toDomainObject(articleDTO);
+			ApplicationHelper.copyNonNullProperties(objToUpdate, originalObject);
+			sampleArticleRepo.update(originalObject);
+			response.setStatusMessage(new StatusMessage(HttpStatus.OK));
 		} catch (final Exception ex) {
+			ex.printStackTrace();
+			response.setStatusMessage(new StatusMessage(HttpStatus.BAD_REQUEST));
 		}
+		return response;
 	}
 
 	/*
@@ -123,12 +143,17 @@ public class SampleArticleService extends AbstractService implements ISampleArti
 	 * .server.dto.SampleArticleRequestDTO)
 	 */
 	@Override
-	public void delete(SampleArticleRequestDTO articleDTO) {
+	public SampleArticleResponseDTO delete(SampleArticleDTO articleDTO) {
 		final SampleArticleAssembler assembler = new SampleArticleAssembler();
+		final SampleArticleResponseDTO response = new SampleArticleResponseDTO();
 		final SampleArticle article = assembler.toDomainObject(articleDTO);
 		try {
 			sampleArticleRepo.delete(article);
+			response.setStatusMessage(new StatusMessage(HttpStatus.OK));
 		} catch (final Exception ex) {
+			ex.printStackTrace();
+			response.setStatusMessage(new StatusMessage(HttpStatus.BAD_REQUEST));
 		}
+		return response;
 	}
 }

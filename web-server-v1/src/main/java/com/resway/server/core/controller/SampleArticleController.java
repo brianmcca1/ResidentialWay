@@ -8,23 +8,18 @@
  */
 package com.resway.server.core.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.resway.server.core.service.SampleArticleService;
-import com.resway.server.dto.SampleArticleRequestDTO;
+import com.resway.server.dto.SampleArticleDTO;
 import com.resway.server.dto.SampleArticleResponseDTO;
 import com.resway.server.entity.domain.SampleArticle;
 import com.resway.server.framework.core.controller.AbstractController;
@@ -56,12 +51,12 @@ public class SampleArticleController extends AbstractController {
 	 *            the id
 	 * @return the article by id
 	 */
-	@GetMapping("articles/{id}")
+	@RequestMapping(value = "articles/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SampleArticleResponseDTO> getArticleById(@PathVariable("id") Integer id) {
-		final SampleArticleRequestDTO dto = new SampleArticleRequestDTO();
+		final SampleArticleDTO dto = new SampleArticleDTO();
 		dto.setArticleId(id);
 		final SampleArticleResponseDTO responseDTO = articleService.read(dto);
-		return new ResponseEntity<SampleArticleResponseDTO>(responseDTO, HttpStatus.OK);
+		return new ResponseEntity<SampleArticleResponseDTO>(responseDTO, responseDTO.getStatusMessage().getStatus());
 	}
 
 	/**
@@ -69,12 +64,10 @@ public class SampleArticleController extends AbstractController {
 	 *
 	 * @return the all articles
 	 */
-	@RequestMapping(value = "articles", method = RequestMethod.GET)
-	public ResponseEntity<List<SampleArticleResponseDTO>> getAllArticles() {
-		System.out.println("Service triggered");
-		final List<SampleArticleResponseDTO> list = articleService.readAll();
-		System.out.println("Items found : " + list.size());
-		return new ResponseEntity<List<SampleArticleResponseDTO>>(list, HttpStatus.OK);
+	@RequestMapping(value = "articles", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SampleArticleResponseDTO> getAllArticles() {
+		final SampleArticleResponseDTO responseDTO = articleService.readAll();
+		return new ResponseEntity<SampleArticleResponseDTO>(responseDTO, HttpStatus.OK);
 	}
 
 	/**
@@ -87,9 +80,9 @@ public class SampleArticleController extends AbstractController {
 	 * @return the response entity
 	 */
 	@RequestMapping(value = "articles", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SampleArticleResponseDTO> addArticle(@RequestBody SampleArticleRequestDTO requestDTO) {
+	public ResponseEntity<SampleArticleResponseDTO> addArticle(@RequestBody SampleArticleDTO requestDTO) {
 		final SampleArticleResponseDTO responseDTO = articleService.create(requestDTO);
-		return new ResponseEntity<SampleArticleResponseDTO>(responseDTO, HttpStatus.CREATED);
+		return new ResponseEntity<SampleArticleResponseDTO>(responseDTO, responseDTO.getStatusMessage().getStatus());
 	}
 
 	/**
@@ -99,10 +92,11 @@ public class SampleArticleController extends AbstractController {
 	 *            the article
 	 * @return the response entity
 	 */
-	@PutMapping("articles")
-	public ResponseEntity<Void> updateArticle(@RequestBody SampleArticleRequestDTO requestDTO) {
-		articleService.update(requestDTO);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+	@RequestMapping(value = "articles/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> updateArticle(@PathVariable("id") Integer id, @RequestBody SampleArticleDTO requestDTO) {
+		requestDTO.setArticleId(id);
+		SampleArticleResponseDTO responseDTO = articleService.update(requestDTO);
+		return new ResponseEntity<Void>(responseDTO.getStatusMessage().getStatus());
 	}
 
 	/**
@@ -112,11 +106,11 @@ public class SampleArticleController extends AbstractController {
 	 *            the id
 	 * @return the response entity
 	 */
-	@DeleteMapping("articles/{id}")
+	@RequestMapping(value = "articles/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> deleteArticle(@PathVariable("id") Integer id) {
-		final SampleArticleRequestDTO requestDTO = new SampleArticleRequestDTO();
+		final SampleArticleDTO requestDTO = new SampleArticleDTO();
 		requestDTO.setArticleId(id);
-		articleService.delete(requestDTO);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		SampleArticleResponseDTO responseDTO = articleService.delete(requestDTO);
+		return new ResponseEntity<Void>(responseDTO.getStatusMessage().getStatus());
 	}
 }
