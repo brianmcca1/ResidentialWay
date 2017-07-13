@@ -8,10 +8,10 @@
  */
 package com.resway.server.assembler;
 
+import com.resway.server.domain.entity.SampleArticle;
+import com.resway.server.domain.key.SampleArticleKey;
 import com.resway.server.dto.SampleArticleDTO;
 import com.resway.server.dto.SampleArticleResponseDTO;
-import com.resway.server.entity.domain.SampleArticle;
-import com.resway.server.entity.key.SampleArticleKey;
 import com.resway.server.framework.assembler.IAbstractAssembler;
 
 /**

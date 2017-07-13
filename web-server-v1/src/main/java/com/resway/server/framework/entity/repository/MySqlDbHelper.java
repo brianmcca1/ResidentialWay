@@ -27,14 +27,14 @@ import javax.persistence.PersistenceContext;
  */
 public class MySqlDbHelper {
 	/** Indicates a reference to the class variable. */
-	private MySqlDbHelper mySqlHelper;
+	private static MySqlDbHelper mySqlHelper;
 
 	/**
 	 * Creates a single instance of MySqlDbHelper.
 	 *
 	 * @return single instance of MySqlDbHelper
 	 */
-	public MySqlDbHelper getInstance() {
+	public static MySqlDbHelper getInstance() {
 		if (mySqlHelper == null) {
 			synchronized (mySqlHelper) {
 				if (mySqlHelper == null) {

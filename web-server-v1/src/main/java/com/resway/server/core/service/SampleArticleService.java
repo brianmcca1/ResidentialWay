@@ -17,11 +17,11 @@ import org.springframework.stereotype.Service;
 
 import com.resway.server.assembler.SampleArticleAssembler;
 import com.resway.server.common.ApplicationHelper;
+import com.resway.server.domain.entity.SampleArticle;
+import com.resway.server.domain.key.SampleArticleKey;
+import com.resway.server.domain.repository.ISampleArticleRepository;
 import com.resway.server.dto.SampleArticleDTO;
 import com.resway.server.dto.SampleArticleResponseDTO;
-import com.resway.server.entity.domain.SampleArticle;
-import com.resway.server.entity.key.SampleArticleKey;
-import com.resway.server.entity.repository.ISampleArticleRepository;
 import com.resway.server.framework.core.service.AbstractService;
 import com.resway.server.framework.dto.StatusMessage;
 

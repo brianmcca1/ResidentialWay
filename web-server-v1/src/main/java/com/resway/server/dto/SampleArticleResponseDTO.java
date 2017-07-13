@@ -11,7 +11,7 @@ package com.resway.server.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.resway.server.entity.domain.SampleArticle;
+import com.resway.server.domain.entity.SampleArticle;
 import com.resway.server.framework.dto.BaseResponseDTO;
 
 /**
@@ -26,6 +26,9 @@ public class SampleArticleResponseDTO extends BaseResponseDTO {
 	 */
 	private List<SampleArticleDTO> dtos;
 
+	/**
+	 * Instantiates a new sample article response DTO.
+	 */
 	public SampleArticleResponseDTO() {
 		super();
 		dtos = new ArrayList<SampleArticleDTO>();

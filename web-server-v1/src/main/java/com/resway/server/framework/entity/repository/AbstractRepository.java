@@ -35,7 +35,7 @@ import com.resway.server.framework.entity.domain.AbstractDomainObject;
  *            Domain Object Key of the type {@link AbstractDomainKey}
  */
 @Transactional
-public abstract class AbstractRepository<T extends AbstractDomainObject, K extends AbstractDomainKey> {
+public abstract class AbstractRepository<T extends AbstractDomainObject, K extends /* AbstractDomainKey */Object> {
 	/** The entity manager. */
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -79,7 +79,7 @@ public abstract class AbstractRepository<T extends AbstractDomainObject, K exten
 	public T create(T object) throws Exception {
 		final Session session = entityManager.unwrap(Session.class);
 		//		session.getTransaction().begin();
-		final AbstractDomainKey key = (AbstractDomainKey) session.save(object);
+		session.save(object);
 		session.flush();
 		//		session.getTransaction().commit();
 		//		session.close();

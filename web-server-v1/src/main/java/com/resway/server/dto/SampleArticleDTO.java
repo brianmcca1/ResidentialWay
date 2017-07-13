@@ -8,7 +8,7 @@
  */
 package com.resway.server.dto;
 
-import com.resway.server.entity.domain.SampleArticle;
+import com.resway.server.domain.entity.SampleArticle;
 import com.resway.server.framework.dto.BaseRequestDTO;
 
 /**

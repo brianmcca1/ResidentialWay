@@ -6,40 +6,43 @@
  * law. Unauthorized copying of this file, via any medium is strictly
  * prohibited. Proprietary and confidential.
  */
-package com.resway.server.entity.key;
+package com.resway.server.domain.key;
 
 import javax.persistence.Embeddable;
 
+import com.resway.server.domain.entity.UserVerification;
 import com.resway.server.framework.entity.domain.AbstractDomainKey;
 
 /**
- * Sample Article key class for test purpose.
+ * Key class for {@link UserVerification}.
  *
  * @author Kevin
  * @since 1.0.0
  */
 @Embeddable
-public class SampleArticleKey extends AbstractDomainKey {
-	/**
-	 * Serial version id.
-	 */
-	private static final long serialVersionUID = 1325990987094850016L;
+public class UserVerificationKey extends AbstractDomainKey {
+	/** Serial version id. */
+	private static final long serialVersionUID = -2089566481434119358L;
 	/** The article id. */
-	private int articleId;
+	private int id;
 
 	/**
-	 * @return the articleId
+	 * Indicates the unique id for user verification
+	 *
+	 * @return the id for the user verfication attribute
 	 */
-	public int getArticleId() {
-		return articleId;
+	public int getId() {
+		return id;
 	}
 
 	/**
-	 * @param articleId
-	 *            the articleId to set
+	 * Fetches the id for the user verfication attribute
+	 *
+	 * @param verificationId
+	 *            the id for the user verfication attribute
 	 */
-	public void setArticleId(int articleId) {
-		this.articleId = articleId;
+	public void getId(int verificationId) {
+		this.id = verificationId;
 	}
 
 	/*
@@ -50,7 +53,7 @@ public class SampleArticleKey extends AbstractDomainKey {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + articleId;
+		result = prime * result + id;
 		return result;
 	}
 
@@ -69,8 +72,8 @@ public class SampleArticleKey extends AbstractDomainKey {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final SampleArticleKey other = (SampleArticleKey) obj;
-		if (articleId != other.articleId) {
+		UserVerificationKey other = (UserVerificationKey) obj;
+		if (id != other.id) {
 			return false;
 		}
 		return true;
@@ -82,6 +85,6 @@ public class SampleArticleKey extends AbstractDomainKey {
 	 */
 	@Override
 	public String toString() {
-		return "SampleArticleKey [articleId=" + articleId + "]";
+		return "UserVerificationKey [id=" + id + "]";
 	}
 }

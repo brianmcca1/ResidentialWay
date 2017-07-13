@@ -6,7 +6,7 @@
  * law. Unauthorized copying of this file, via any medium is strictly
  * prohibited. Proprietary and confidential.
  */
-package com.resway.server.entity.domain;
+package com.resway.server.domain.entity;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -16,7 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
-import com.resway.server.entity.key.SampleArticleKey;
+import com.resway.server.domain.key.SampleArticleKey;
 import com.resway.server.framework.entity.domain.AbstractDomainKey;
 import com.resway.server.framework.entity.domain.AbstractDomainObject;
 
@@ -55,7 +55,6 @@ public class SampleArticle extends AbstractDomainObject {
 	 *
 	 * @return the key
 	 */
-	@Override
 	public SampleArticleKey getKey() {
 		return key;
 	}
@@ -66,7 +65,6 @@ public class SampleArticle extends AbstractDomainObject {
 	 * @param key
 	 *            the key to set
 	 */
-	@Override
 	public void setKey(AbstractDomainKey key) {
 		this.key = (SampleArticleKey) key;
 	}

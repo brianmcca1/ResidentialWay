@@ -18,7 +18,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 /**
  * Represents a launcher class for the SpringBoot Application. Used to fetch all
  * properties from the <b>application.properties</b> file and triggers to start
- * an instance on the TomCat server on the desired port (8080: dev purpose.
+ * an instance on the TomCat server on the desired port (8080: dev purpose)
+ *
+ * </br></br><u>Refresh project</u> </br><i>mvn clean eclipse:eclipse </i>
+ * </br></br><u>Start up server</u> </br><i>mvn spring-boot:run </i>
  *
  * @since 1.0.0
  * @author Kevin

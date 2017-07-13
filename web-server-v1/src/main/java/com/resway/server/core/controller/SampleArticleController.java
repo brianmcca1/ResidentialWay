@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.resway.server.core.service.SampleArticleService;
+import com.resway.server.domain.entity.SampleArticle;
 import com.resway.server.dto.SampleArticleDTO;
 import com.resway.server.dto.SampleArticleResponseDTO;
-import com.resway.server.entity.domain.SampleArticle;
 import com.resway.server.framework.core.controller.AbstractController;
 
 /**

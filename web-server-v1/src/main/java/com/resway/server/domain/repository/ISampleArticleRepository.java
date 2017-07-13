@@ -6,7 +6,7 @@
  * law. Unauthorized copying of this file, via any medium is strictly
  * prohibited. Proprietary and confidential.
  */
-package com.resway.server.entity.repository;
+package com.resway.server.domain.repository;
 
 import java.util.List;
 

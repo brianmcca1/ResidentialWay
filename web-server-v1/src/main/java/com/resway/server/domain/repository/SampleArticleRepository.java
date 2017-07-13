@@ -6,15 +6,15 @@
  * law. Unauthorized copying of this file, via any medium is strictly
  * prohibited. Proprietary and confidential.
  */
-package com.resway.server.entity.repository;
+package com.resway.server.domain.repository;
 
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.resway.server.entity.domain.SampleArticle;
-import com.resway.server.entity.key.SampleArticleKey;
+import com.resway.server.domain.entity.SampleArticle;
+import com.resway.server.domain.key.SampleArticleKey;
 import com.resway.server.framework.entity.repository.AbstractRepository;
 
 /**

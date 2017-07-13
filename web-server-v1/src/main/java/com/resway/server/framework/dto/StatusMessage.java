@@ -30,11 +30,20 @@ public class StatusMessage {
 	 */
 	private String errorCode;
 
+	/**
+	 * Instantiates a new status message.
+	 *
+	 * @param status
+	 *            the status
+	 */
 	public StatusMessage(HttpStatus status) {
 		super();
 		this.status = status;
 	}
 
+	/**
+	 * Instantiates a new status message.
+	 */
 	public StatusMessage() {
 		super();
 	}

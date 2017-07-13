@@ -15,7 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
-import com.resway.server.entity.domain.SampleArticle;
+import com.resway.server.domain.entity.SampleArticle;
 
 /**
  * This class is to be used as a helper that provides access to all common
